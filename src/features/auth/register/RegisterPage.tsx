@@ -1,5 +1,5 @@
 const RegisterPage: React.FC = () => {
-  return <p>EAAA</p>
+  return <p>EAAAs</p>
 }
 
 export default RegisterPage;
