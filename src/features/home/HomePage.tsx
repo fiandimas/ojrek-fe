@@ -1,11 +1,8 @@
-import TopBar from "@/shared/components/TopBar";
-import { AppBar, Box, Button, Container, Menu, TextField, Toolbar, Typography } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
+import { Box, Button, TextField, Typography } from "@mui/material";
 
 const HomePage: React.FC = () => {
   return (
     <Box>
-      <TopBar />
 
       <Box sx={{ justifyItems: 'center', marginTop: 4 }}>
         <Typography

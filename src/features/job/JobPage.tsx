@@ -1,6 +1,4 @@
-import TopBar from "@/shared/components/TopBar";
-import { AppBar, Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, Menu, TextField, Toolbar, Typography } from "@mui/material";
-import InputAdornment from '@mui/material/InputAdornment';
+import { Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 
 const JobPage: React.FC = () => {
@@ -27,7 +25,6 @@ const JobPage: React.FC = () => {
 
   return (
     <Box>
-      <TopBar />
       <Container maxWidth="xl">
         <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, marginTop: 2 }}>
           <TextField

@@ -1,6 +1,10 @@
-import { AppBar, Box, Button, Container, Menu, Toolbar, Typography } from "@mui/material";
+import { ROUTES } from "@/constants/router";
+import { AppBar, Box, Button, Container, Toolbar } from "@mui/material";
+import { useNavigate } from "react-router";
 
 const TopBar: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <AppBar
       position="static"
@@ -16,12 +20,12 @@ const TopBar: React.FC = () => {
         <Toolbar disableGutters>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: 'w-full', minWidth: '100%' }}>
             <Box>
-              <Button>Jobs</Button>
+              <Button onClick={() => navigate(ROUTES.JOBS)}>Jobs</Button>
               <Button>Companies</Button>
             </Box>
             <Box>
-              <Button>SIGN UP</Button>
-              <Button>LOGIN</Button>
+              <Button onClick={() => navigate(ROUTES.AUTH.LOGIN)}>SIGN UP</Button>
+              <Button onClick={() => navigate(ROUTES.AUTH.REGISTER)}>LOGIN</Button>
             </Box>
           </Box>
         </Toolbar>
