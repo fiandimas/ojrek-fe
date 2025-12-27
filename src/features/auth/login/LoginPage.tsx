@@ -1,4 +1,5 @@
-import { Box, Button, Card, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
+import { Box, Card, CardContent, Container, Typography } from "@mui/material";
+import LoginForm from "./components/LoginForm";
 
 const LoginPage: React.FC = () => {
   return (
@@ -16,13 +17,7 @@ const LoginPage: React.FC = () => {
 
         <Card sx={{ width: 400, marginTop: 2, p: 4 }}>
           <CardContent>
-            <form>
-              <Stack gap={2}>
-                <TextField placeholder="Email" size="small" fullWidth/>
-                <TextField placeholder="Password" size="small" fullWidth/>
-                <Button variant="contained">Login</Button>
-              </Stack>
-            </form>
+            <LoginForm />
           </CardContent>
         </Card>
       </Box>
