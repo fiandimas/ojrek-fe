@@ -1,6 +1,21 @@
-import { Autocomplete, Box, Button, Card, CardContent, Container, Stack, TextField, Typography } from "@mui/material";
+import { Box, Card, CardContent, Container, IconButton, Snackbar, Typography } from "@mui/material";
+import RegisterForm from "./components/RegisterForm";
+import { useState } from "react";
+import { Close } from "@mui/icons-material";
+import { useNavigate } from "react-router";
+import { ROUTES } from "@/constants/router";
 
 const RegisterPage: React.FC = () => {
+  const navigate = useNavigate();
+  const [snackbar, setSnackbar] = useState<boolean>(false);
+
+  const onSuccess = () => {
+    setSnackbar(true);
+    setTimeout(() => {
+      navigate(ROUTES.AUTH.LOGIN);
+    }, 1500);
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -16,29 +31,25 @@ const RegisterPage: React.FC = () => {
 
         <Card sx={{ width: 400, marginTop: 2, p: 4 }}>
           <CardContent>
-            <form>
-              <Stack gap={2}>
-                <TextField placeholder="Fullname" size="small" fullWidth/>
-                <TextField placeholder="Email" size="small" fullWidth/>
-                <TextField placeholder="Password" size="small" fullWidth/>
-                <Autocomplete
-                  disablePortal
-                  options={[
-                    {
-                      label: 'AUUU',
-                      value: 'AUUUU'
-                    }
-                  ]}
-                  fullWidth
-                  renderInput={(params) => <TextField {...params} label="Profession" />}
-                  size="small"
-                />
-                <Button variant="contained">Register</Button>
-              </Stack>
-            </form>
+            <RegisterForm onSuccess={onSuccess} />
           </CardContent>
         </Card>
       </Box>
+
+      <Snackbar
+        open={snackbar}
+        autoHideDuration={5000}
+        message="Success register. you can login"
+        action={
+          <IconButton
+            size="small"
+            color="inherit"
+            onClick={() => setSnackbar(false)}
+          >
+            <Close fontSize="small"/>
+          </IconButton>
+        }
+      />
     </Container>
   );
 }

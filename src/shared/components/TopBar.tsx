@@ -24,8 +24,8 @@ const TopBar: React.FC = () => {
               <Button>Companies</Button>
             </Box>
             <Box>
-              <Button onClick={() => navigate(ROUTES.AUTH.LOGIN)}>SIGN UP</Button>
-              <Button onClick={() => navigate(ROUTES.AUTH.REGISTER)}>LOGIN</Button>
+              <Button onClick={() => navigate(ROUTES.AUTH.LOGIN)}>LOGIN</Button>
+              <Button onClick={() => navigate(ROUTES.AUTH.REGISTER)}>REGISTER</Button>
             </Box>
           </Box>
         </Toolbar>

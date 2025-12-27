@@ -6,3 +6,14 @@ export interface LoginData {
 export interface LoginResponse {
   token: string;
 }
+
+export interface RegisterData {
+  name: string;
+  email: string;
+  password: string;
+  profession: string;
+}
+
+export interface RegisterResponse {
+  token: string;
+}
