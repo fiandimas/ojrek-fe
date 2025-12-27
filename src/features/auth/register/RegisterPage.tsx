@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Container, IconButton, Snackbar, Typography } from "@mui/material";
+import { Alert, Box, Card, CardContent, Container, IconButton, Snackbar, Typography } from "@mui/material";
 import RegisterForm from "./components/RegisterForm";
 import { useState } from "react";
 import { Close } from "@mui/icons-material";
@@ -7,6 +7,7 @@ import { ROUTES } from "@/constants/router";
 
 const RegisterPage: React.FC = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>();
   const [snackbar, setSnackbar] = useState<boolean>(false);
 
   const onSuccess = () => {
@@ -14,6 +15,10 @@ const RegisterPage: React.FC = () => {
     setTimeout(() => {
       navigate(ROUTES.AUTH.LOGIN);
     }, 1500);
+  };
+
+  const onError = (error: string) => {
+    setError(error);
   };
 
   return (
@@ -31,7 +36,8 @@ const RegisterPage: React.FC = () => {
 
         <Card sx={{ width: 400, marginTop: 2, p: 4 }}>
           <CardContent>
-            <RegisterForm onSuccess={onSuccess} />
+            {error ? <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert> : ''}
+            <RegisterForm onSuccess={onSuccess} onError={onError} />
           </CardContent>
         </Card>
       </Box>

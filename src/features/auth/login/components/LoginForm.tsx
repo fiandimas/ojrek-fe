@@ -1,15 +1,18 @@
-import { Button, Stack, TextField, Typography } from "@mui/material";
+import { Button, Stack, TextField } from "@mui/material";
 import useLoginForm from "../hooks/useLoginForm";
 
-const LoginForm: React.FC = () => {
-  const { form, onSubmit, isLoading, error } = useLoginForm();
+interface LoginFormProps {
+  onError: (error: string) => void;
+  onSuccess: () => void;
+}
+
+const LoginForm: React.FC<LoginFormProps> = ({ onError, onSuccess }) => {
+  const { form, onSubmit, isLoading } = useLoginForm({ onError, onSuccess });
   const { register, handleSubmit, formState: { errors } } = form;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={2}>
-        {error ? <Typography>{error}</Typography> : ''}
-
         <TextField
           placeholder="Email"
           size="small"

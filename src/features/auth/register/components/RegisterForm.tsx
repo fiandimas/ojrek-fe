@@ -1,28 +1,19 @@
-import { Button, Stack, TextField, Typography, Autocomplete } from "@mui/material";
+import { Button, Stack, TextField, Autocomplete } from "@mui/material";
 import useRegisterForm from "../hooks/useRegisterForm";
 import { Controller } from "react-hook-form";
-import type { AxiosError } from "axios";
-import type { ResponseApi } from "@/shared/types/api";
-import { useState } from "react";
 
 interface RegisterFormProps {
+  onError: (error: string) => void;
   onSuccess: () => void;
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = ({ onSuccess }) => {
-  const [error, setError] = useState<string>();
-
-  const onError = (error: AxiosError<ResponseApi>) => {
-    setError(error.response?.data.error.message)
-  }
-
+const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
   const { form, onSubmit, isLoading, professions } = useRegisterForm({ onSuccess, onError });
   const { register, handleSubmit, formState: { errors }, control } = form;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack gap={2}>
-        <Typography>{error}</Typography>
         <TextField
           placeholder="Fullname"
           size="small"

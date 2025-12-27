@@ -1,7 +1,17 @@
-import { Box, Card, CardContent, Container, Typography } from "@mui/material";
+import { Alert, Box, Card, CardContent, Container, Typography } from "@mui/material";
 import LoginForm from "./components/LoginForm";
+import { useState } from "react";
 
 const LoginPage: React.FC = () => {
+  const [error, setError] = useState<string | null>();
+
+  const onSuccess = () => {
+  };
+  
+  const onError = (error: string) => {
+    setError(error);
+  };
+
   return (
     <Container
       maxWidth="lg"
@@ -17,7 +27,8 @@ const LoginPage: React.FC = () => {
 
         <Card sx={{ width: 400, marginTop: 2, p: 4 }}>
           <CardContent>
-            <LoginForm />
+            {error ? <Alert severity="error" sx={{ marginBottom: 2 }}>{error}</Alert> : ''}
+            <LoginForm onError={onError} onSuccess={onSuccess}/>
           </CardContent>
         </Card>
       </Box>

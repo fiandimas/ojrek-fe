@@ -4,7 +4,7 @@ import type { AxiosError } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 interface RegisterFormProps {
-  onError: (data: AxiosError<ResponseApi>) => void;
+  onError: (error: string) => void;
   onSuccess: () => void;
 }
 
@@ -34,7 +34,7 @@ const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
   });
 
   const registerMutation = usePostRegister({
-    onError: (data) => onError(data),
+    onError: (data) => onError(data.response?.data.error.message || 'Terjadi kesalahan'),
     onSuccess: onSuccess,
   });
 

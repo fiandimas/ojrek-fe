@@ -1,15 +1,17 @@
 import { usePostLogin } from "@/app/api/auth/useAuthApi";
-import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
+
+interface LoginFormProps {
+  onError: (error: string) => void;
+  onSuccess: () => void;
+}
 
 interface LoginFormData {
   email: string;
   password: string;
 }
 
-const useLoginForm = () => {
-  const [error, setError] = useState<string>();
-
+const useLoginForm = ({ onError, onSuccess }: LoginFormProps) => {
   const form = useForm<LoginFormData>({
     defaultValues: {
       email: '',
@@ -18,10 +20,8 @@ const useLoginForm = () => {
   });
 
   const loginMutation = usePostLogin({
-    onSuccess: () => {},
-    onError: (data) => {
-      setError(data.response?.data.error.message || 'Terjadi kesalahan');
-    }
+    onSuccess: onSuccess,
+    onError: (data) => onError(data.response?.data.error.message || 'Terjadi kesalahan'),
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = (data) => {
@@ -32,7 +32,6 @@ const useLoginForm = () => {
     form,
     onSubmit,
     isLoading: loginMutation.isPending,
-    error,
   };
 };
 
