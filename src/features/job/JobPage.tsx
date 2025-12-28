@@ -1,68 +1,38 @@
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box,  Container } from "@mui/material";
+import JobGrid from "./components/JobGrid";
+import { useJob } from "./hooks/useJob";
+import JobFilter from "./components/JobFilter";
+import JobTablePagination from "./components/JobTablePagination";
 
 const JobPage: React.FC = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const {
+    page,
+    limit,
+    jobs,
+    jobCount,
+    isLoading,
 
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        const res = await fetch('http://127.0.0.1:8080/api/v1/jobs?limit=100');
-        const json = await res.json();
-        setData(json.data);
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+    setPage,
+    setSearch
+  } = useJob();
 
-    fetchJobs();
-  }, []);
+  const onClickCard = (detailUrl: string) => {
+    open(detailUrl);
+  }
 
-  if (loading) return <div>Loading...</div>;
+  const onSearch = (search: string) => {
+    setPage(0);
+    setSearch(search);
+  }
 
   return (
     <Box>
-      <Container maxWidth="xl">
-        <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, marginTop: 2 }}>
-          <TextField
-            placeholder="Search by title..."
-            size="small"
-            fullWidth
-          />
-          <Button variant="contained" size="small" sx={{ width: 200 }}>Search</Button>
-        </Box>
+      <Container sx={{ maxWidth: 'xl' }}>
+        <JobFilter onSearch={onSearch} />
 
+        <JobGrid jobs={jobs} onClickCard={onClickCard} isLoading={isLoading} />
 
-
-        <Box sx={{ display: 'flex', marginTop: 4 }}>
-          <Box sx={{ background: 'red'}}>
-            <Typography variant="h6">Jobs in Indonesia</Typography>
-          </Box>
-          <Box sx={{ width: '100%' }}>
-            <Grid container spacing={2}>
-              {data.map((e) => (
-                <Grid size={4}>
-                  <Card>
-                    <CardActionArea onClick={() => open(e.detail_url)}>
-                      <CardContent>
-                      <Typography gutterBottom variant="h6">
-                        {e.name}
-                      </Typography>
-                    </CardContent>
-                    <CardActions sx={{ display: 'flex', justifyContent: 'space-between'}}>
-                      <Typography variant="h6" fontSize={13}>2 days ago</Typography>
-                      <Button size="small">Share</Button>
-                    </CardActions>
-                    </CardActionArea>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Box>
-        </Box>
+        <JobTablePagination page={page} limit={limit} count={jobCount} onPageChange={setPage} />
       </Container>
     </Box>
   );
