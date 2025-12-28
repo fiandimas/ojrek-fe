@@ -1,14 +1,11 @@
 import { usePostRegister } from "@/app/api/auth/useAuthApi";
+import type { Profession } from "@/app/api/profession/type";
+import { useGetProfessions } from "@/app/api/profession/useProfessionApi";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 interface RegisterFormProps {
   onError: (error: string) => void;
   onSuccess: () => void;
-}
-
-interface Profession {
-  id: string;
-  label: string;
 }
 
 interface RegisterFormData {
@@ -28,6 +25,8 @@ const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
     }
   });
 
+  const { data, isLoading: loadingProfession } = useGetProfessions();
+
   const registerMutation = usePostRegister({
     onError: (data) => onError(data.response?.data.error.message || 'Terjadi kesalahan'),
     onSuccess: onSuccess,
@@ -35,50 +34,21 @@ const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     registerMutation.mutateAsync({
-      name: data.email,
+      name: data.name,
       email: data.email,
       password: data.password,
-      profession: data.profession?.label || '',
+      profession: data.profession?.Name || '',
     });
   };
 
-  const professions: Profession[] = [
-    {
-      id: '1',
-      label: 'Data'
-    },
-        {
-      id: '1',
-      label: 'Data'
-    }
-    ,    {
-      id: '1',
-      label: 'Data'
-    }
-    ,
-        {
-      id: '1',
-      label: 'Data'
-    },
-        {
-      id: '1',
-      label: 'Data'
-    },
-        {
-      id: '1',
-      label: 'Data'
-    },
-        {
-      id: '1',
-      label: 'Data'
-    },
-  ];
+  const professions = data?.data.data || [];
 
   return {
     form,
+    professions,
     onSubmit,
     isLoading: registerMutation.isPending,
-    professions,
+    loadingProfession,
   };
 };
 

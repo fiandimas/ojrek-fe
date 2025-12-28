@@ -3,12 +3,12 @@ import useRegisterForm from "../hooks/useRegisterForm";
 import { Controller } from "react-hook-form";
 
 interface RegisterFormProps {
-  onError: (error: string) => void;
   onSuccess: () => void;
+  onError: (error: string) => void;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
-  const { form, onSubmit, isLoading, professions } = useRegisterForm({ onSuccess, onError });
+  const { form, onSubmit, professions, isLoading, loadingProfession } = useRegisterForm({ onSuccess, onError });
   const { register, handleSubmit, formState: { errors }, control } = form;
 
   return (
@@ -54,8 +54,8 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
               {...field}
               disablePortal
               options={professions}
-              getOptionKey={(option) => option.id}
-              getOptionLabel={(option) => option.label}
+              getOptionKey={(option) => option.ID}
+              getOptionLabel={(option) => option.Name}
               onChange={(_, value) => field.onChange(value)}
               value={field.value}
               fullWidth
@@ -72,7 +72,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
           )}
         />
 
-        <Button type="submit" variant="contained" disabled={isLoading}>Register</Button>
+        <Button type="submit" variant="contained" disabled={isLoading || loadingProfession}>Register</Button>
       </Stack>
     </form>
   );
