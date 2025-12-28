@@ -3,13 +3,13 @@ import { Button, Card, CardActionArea, CardActions, CardContent, Grid, Skeleton,
 import type React from "react";
 import { formatDistanceToNow } from 'date-fns';
 
-interface JobGridProps {
+interface RecommendedGridProps {
 	jobs: Job[];
   isLoading: boolean;
   onClickCard: (detail_url: string) => void;
 };
 
-const JobGrid: React.FC<JobGridProps> = ({ jobs, isLoading, onClickCard }) => {
+const RecommendedGrid: React.FC<RecommendedGridProps> = ({ jobs, isLoading, onClickCard }) => {
   if (jobs.length === 0 && !isLoading) {
     return (
       <Typography
@@ -17,7 +17,7 @@ const JobGrid: React.FC<JobGridProps> = ({ jobs, isLoading, onClickCard }) => {
         align="center"
         sx={{ mt: 6, color: "text.secondary" }}
       >
-        😕 No jobs available. try update your search or reload
+        😕 No recommended jobs available
       </Typography>
     );
   }
@@ -27,7 +27,7 @@ const JobGrid: React.FC<JobGridProps> = ({ jobs, isLoading, onClickCard }) => {
       <Grid container spacing={2} sx={{ marginTop: 2 }}>
         {Array.from({ length: 30 }).map((_, i) => (
           <Grid size={4} key={i}>
-            <Card sx={{ height: 170 }}>
+            <Card sx={{ height: 160 }}>
               <CardContent>
                 <Skeleton variant="text" height={28} width="80%" />
                 <Skeleton variant="text" height={20} width="60%" />
@@ -64,4 +64,4 @@ const JobGrid: React.FC<JobGridProps> = ({ jobs, isLoading, onClickCard }) => {
 	);
 };
 
-export default JobGrid;
+export default RecommendedGrid;

@@ -1,11 +1,15 @@
 import { Alert, Box, Card, CardContent, Container, Typography } from "@mui/material";
 import LoginForm from "./components/LoginForm";
 import { useState } from "react";
+import { useNavigate } from "react-router";
+import { ROUTES } from "@/constants/router";
 
 const LoginPage: React.FC = () => {
+  const navigate = useNavigate();
   const [error, setError] = useState<string | null>();
 
   const onSuccess = () => {
+    navigate(ROUTES.RECOMMENDED);
   };
   
   const onError = (error: string) => {
