@@ -4,6 +4,7 @@ import HomePage from '@/features/home/HomePage';
 import JobPage from '@/features/job/JobPage';
 import RegisterPage from '@/features/auth/register/RegisterPage';
 import LoginPage from '@/features/auth/login/LoginPage';
+import RecommendedPage from '@/features/recommended/RecommendedPage';
 import AppLayout from "@/shared/layouts/AppLayout";
 import { ROUTES } from "@/constants/router";
 
@@ -19,6 +20,10 @@ const Router = [
       {
         path: ROUTES.JOBS,
         element: <JobPage/>
+      },
+      {
+        path: ROUTES.RECOMMENDED,
+        element: <RecommendedPage/>
       },
       // Guest routes - authentication pages
       {
