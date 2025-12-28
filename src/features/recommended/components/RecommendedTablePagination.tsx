@@ -15,7 +15,7 @@ const RecommendedTablePagination: React.FC<RecommendedTablePaginationProps> = ({
       count={count}
       onPageChange={(_, newPage) => onPageChange(newPage)}
       rowsPerPage={limit}
-      labelDisplayedRows={() => ""}
+      labelDisplayedRows={(e) => `Found ${e.count.toLocaleString()} result`}
       page={page}
       rowsPerPageOptions={[]}
     />

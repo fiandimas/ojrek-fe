@@ -1,4 +1,5 @@
-import React, { createContext, useContext, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { useGetMe } from "../api/profile/useAuthProfile";
 
 interface User {
   name: string;
@@ -9,27 +10,34 @@ interface User {
 type AuthContextType = {
   user: User | null;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<void>;
   logout: () => void;
   setUser: (user: User) => void;
+  loading: boolean;
 };
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children}: { children: React.ReactNode } ) => {
   const [user, _setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  const login = async (email: string, password: string) => {
-    _setUser({
-      email: email,
-      name: 'Alfian',
-      profession: 'Ngoding',
-    });
-  };
+  const { data, isSuccess, isError } = useGetMe();
+
+  useEffect(() => {
+    if (isSuccess) {
+      const { name, email, profession } = data.data.data!;
+      _setUser({ email, name, profession });
+      setLoading(false);
+    }
+
+    if (isError) {
+      _setUser(null);
+      setLoading(false);
+    }
+  }, [isSuccess, isError, data]);
 
   const logout = () => {
     _setUser(null);
-    localStorage.removeItem('token');
   };
 
   const setUser = (user: User) => {
@@ -41,9 +49,9 @@ export const AuthProvider = ({ children}: { children: React.ReactNode } ) => {
       value={{
         user,
         isAuthenticated: !!user,
-        login,
         logout,
         setUser,
+        loading,
       }}
     >
       {children}

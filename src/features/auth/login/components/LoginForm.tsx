@@ -1,9 +1,12 @@
 import { Button, Stack, TextField } from "@mui/material";
 import useLoginForm from "../hooks/useLoginForm";
+import type { AxiosResponse } from "axios";
+import type { ResponseApi } from "@/shared/types/api";
+import type { LoginResponse } from "@/app/api/auth/type";
 
 interface LoginFormProps {
   onError: (error: string) => void;
-  onSuccess: () => void;
+  onSuccess: (response: AxiosResponse<ResponseApi<LoginResponse>>) => void;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ onError, onSuccess }) => {

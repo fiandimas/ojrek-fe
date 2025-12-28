@@ -1,11 +1,24 @@
 import { useAuth } from "@/app/contexts/AuthContext";
 import { ROUTES } from "@/constants/router";
-import { AppBar, Avatar, Box, Button, Container, Toolbar } from "@mui/material";
+import { AppBar, Avatar, Box, Button, Container, Menu, MenuItem, Toolbar } from "@mui/material";
+import { useState } from "react";
 import { useNavigate } from "react-router";
 
 const TopBar: React.FC = () => {
   const navigate = useNavigate();
-  const auth = useAuth();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+
+  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    logout();
+    setAnchorEl(null);
+  };
 
   return (
     <AppBar
@@ -23,13 +36,33 @@ const TopBar: React.FC = () => {
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: 'w-full', minWidth: '100%' }}>
             <Box>
               <Button onClick={() => navigate(ROUTES.JOBS)} color="inherit">Jobs</Button>
-              {auth.isAuthenticated && (
+              {isAuthenticated && (
                 <Button onClick={() => navigate(ROUTES.RECOMMENDED)} color="inherit">Recommended Jobs</Button>
               )}
               <Button  color="inherit">Companies</Button>
             </Box>
             <Box>
-              {auth.isAuthenticated ? <Avatar> {auth.user?.name.charAt(0)} </Avatar> : (
+              {isAuthenticated ?
+              (
+                <>
+                  <Button
+                    variant="contained"
+                    startIcon={<Avatar src="/user.jpg" sx={{ width: 24, height: 24 }} />}
+                    onClick={handleClick}
+                  >
+                    {user?.name}
+                  </Button>
+                  <Menu
+                    id="menu"
+                    open={open}
+                    anchorEl={anchorEl}
+                  >
+                    <MenuItem onClick={handleClose} sx={{ fontSize: 14 }}>Logout</MenuItem>
+                  </Menu>
+                </>
+              )
+                :
+              (
                 <>
                   <Button onClick={() => navigate(ROUTES.AUTH.LOGIN)} color="inherit">Login</Button>
                   <Button onClick={() => navigate(ROUTES.AUTH.REGISTER)} color="inherit">Register</Button>

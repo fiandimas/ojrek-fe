@@ -1,3 +1,10 @@
+export interface MeResponse {
+  id: string;
+  name: string;
+  email: string;
+  profession: string;
+}
+
 export interface MyJobsResponse {
   jobs: Job[];
   count: number;

@@ -3,12 +3,19 @@ import LoginForm from "./components/LoginForm";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { ROUTES } from "@/constants/router";
+import type { AxiosResponse } from "axios";
+import type { ResponseApi } from "@/shared/types/api";
+import type { LoginResponse } from "@/app/api/auth/type";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
+  const { setUser } = useAuth();
   const [error, setError] = useState<string | null>();
 
-  const onSuccess = () => {
+  const onSuccess = (response: AxiosResponse<ResponseApi<LoginResponse>>) => {
+    const { email, name, profession } = response.data.data!;
+    setUser({ name, email, profession });
     navigate(ROUTES.RECOMMENDED);
   };
   

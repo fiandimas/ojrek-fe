@@ -1,9 +1,8 @@
-import { useGetMyJobs } from "@/app/api/profile/useAuthProfile";
-import { Box, Button, Card, CardActionArea, CardActions, CardContent, Container, Grid, TextField, Typography } from "@mui/material";
-import { useEffect, useState } from "react";
+import { Box, Container, Typography } from "@mui/material";
 import { useProfile } from "./hooks/useProfile";
 import RecommendedGrid from "./components/RecommendedGrid";
 import RecommendedTablePagination from "./components/RecommendedTablePagination";
+import { useAuth } from "@/app/contexts/AuthContext";
 
 const RecommendedPage: React.FC = () => {
   const {
@@ -19,10 +18,12 @@ const RecommendedPage: React.FC = () => {
     open(detailUrl);
   }
 
+  const auth = useAuth();
+
   return (
     <Box>
       <Container sx={{ maxWidth: 'xl' }}>
-
+        <Typography variant="h6" sx={{ marginTop: 2 }}>Recommended jobs for {auth.user?.profession}</Typography>
         <RecommendedGrid jobs={jobs} onClickCard={onClickCard} isLoading={isLoading} />
         <RecommendedTablePagination page={page} limit={limit} onPageChange={setPage} count={jobCount} />
       </Container>

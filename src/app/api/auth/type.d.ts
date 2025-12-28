@@ -4,7 +4,10 @@ export interface LoginData {
 }
 
 export interface LoginResponse {
-  token: string;
+  id: string;
+  name: string;
+  email: string;
+  profession: string;
 }
 
 export interface RegisterData {

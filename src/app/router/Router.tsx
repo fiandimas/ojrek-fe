@@ -7,6 +7,8 @@ import LoginPage from '@/features/auth/login/LoginPage';
 import RecommendedPage from '@/features/recommended/RecommendedPage';
 import AppLayout from "@/shared/layouts/AppLayout";
 import { ROUTES } from "@/constants/router";
+import GuestLayout from "@/shared/layouts/GuestLayout";
+import ProtectedLayout from "@/shared/layouts/ProtectedLayout";
 
 const Router = [
   {
@@ -21,19 +23,31 @@ const Router = [
         path: ROUTES.JOBS,
         element: <JobPage/>
       },
+      // GUEST ROUTE
       {
-        path: ROUTES.RECOMMENDED,
-        element: <RecommendedPage/>
+        element: <GuestLayout />,
+        children: [
+          {
+            path: ROUTES.AUTH.LOGIN,
+            element: <LoginPage />,
+          },
+          { path: ROUTES.AUTH.REGISTER,
+            element: <RegisterPage /> 
+          },
+        ],
       },
-      // Guest routes - authentication pages
+      // PROTECTED ROUTE
       {
-        path: ROUTES.AUTH.LOGIN,
-        element: <LoginPage />,
+        element: <ProtectedLayout />,
+        children: [
+          {
+            path: ROUTES.RECOMMENDED,
+            element: <RecommendedPage/>
+          },
+        ],
       },
-      { path: ROUTES.AUTH.REGISTER, element: <RegisterPage /> },
     ],
   },
-  
 ];
 
 const router = createBrowserRouter(Router)

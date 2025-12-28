@@ -15,7 +15,7 @@ const JobTablePagination: React.FC<JobTablePaginationProps> = ({ page, count, li
       count={count}
       onPageChange={(_, newPage) => onPageChange(newPage)}
       rowsPerPage={limit}
-      labelDisplayedRows={() => ""}
+      labelDisplayedRows={(e) => `Found ${e.count.toLocaleString()} result`}
       page={page}
       rowsPerPageOptions={[]}
     />

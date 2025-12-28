@@ -1,10 +1,12 @@
+import type { LoginResponse } from "@/app/api/auth/type";
 import { usePostLogin } from "@/app/api/auth/useAuthApi";
-import { useAuth } from "@/app/contexts/AuthContext";
+import type { ResponseApi } from "@/shared/types/api";
+import type { AxiosResponse } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 interface LoginFormProps {
   onError: (error: string) => void;
-  onSuccess: () => void;
+  onSuccess: (data: AxiosResponse<ResponseApi<LoginResponse>>) => void;
 }
 
 interface LoginFormData {
@@ -13,7 +15,6 @@ interface LoginFormData {
 }
 
 const useLoginForm = ({ onError, onSuccess }: LoginFormProps) => {
-  const auth = useAuth();
   const form = useForm<LoginFormData>({
     defaultValues: {
       email: '',
@@ -22,19 +23,11 @@ const useLoginForm = ({ onError, onSuccess }: LoginFormProps) => {
   });
 
   const loginMutation = usePostLogin({
-    onSuccess: (data) => {
-      auth.setUser({
-        email: 'al',
-        name: 'A',
-        profession: 'aaa',
-      });
-      onSuccess();
-    },
+    onSuccess: (data) => onSuccess(data),
     onError: (data) => onError(data.response?.data.error.message || 'Terjadi kesalahan'),
   });
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
-    auth.login(data.email, data.password);
     await loginMutation.mutateAsync(data);
   };
 
