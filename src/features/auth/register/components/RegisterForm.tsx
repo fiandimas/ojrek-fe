@@ -20,13 +20,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
           fullWidth
           {...register('name', { required: 'Nama lengkap wajib diisi' })}
           helperText={errors.name?.message}
-          slotProps={{
-            formHelperText: {
-              sx: {
-                marginLeft: 0,
-              }
-            }
-          }}
         />
 
         <TextField
@@ -41,13 +34,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
               }
           })}
           helperText={errors.email?.message}
-          slotProps={{
-            formHelperText: {
-              sx: {
-                marginLeft: 0,
-              }
-            }
-          }}
         />
 
         <TextField
@@ -57,13 +43,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
           fullWidth
           {...register('password', { required: 'Password wajib diisi' })}
           helperText={errors.password?.message}
-          slotProps={{
-            formHelperText: {
-              sx: {
-                marginLeft: 0,
-              }
-            }
-          }}
         />
 
         <Controller
@@ -86,13 +65,6 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onError, onSuccess }) => {
                     {...params}
                     placeholder="Profession"
                     helperText={errors.profession?.message}
-                    slotProps={{
-                      formHelperText: {
-                        sx: {
-                          marginLeft: 0,
-                        }
-                      }
-                    }}
                   />
               }
               size="small"

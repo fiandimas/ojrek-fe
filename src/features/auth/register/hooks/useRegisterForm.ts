@@ -1,6 +1,4 @@
 import { usePostRegister } from "@/app/api/auth/useAuthApi";
-import type { ResponseApi } from "@/shared/types/api";
-import type { AxiosError } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
 
 interface RegisterFormProps {
@@ -17,7 +15,7 @@ interface RegisterFormData {
   name: string;
   email: string;
   password: string;
-  profession: Profession;
+  profession: Profession | null;
 }
 
 const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
@@ -26,10 +24,7 @@ const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
       name: '',
       email: '',
       password: '',
-      profession: {
-        id: '',
-        label: '',
-      },
+      profession: null,
     }
   });
 
@@ -43,7 +38,7 @@ const useRegisterForm = ({ onSuccess, onError }: RegisterFormProps) => {
       name: data.email,
       email: data.email,
       password: data.password,
-      profession: data.profession.label,
+      profession: data.profession?.label || '',
     });
   };
 

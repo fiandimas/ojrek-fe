@@ -1,7 +1,7 @@
 import { Alert, Box, Card, CardContent, Container, IconButton, Snackbar, Typography } from "@mui/material";
 import RegisterForm from "./components/RegisterForm";
 import { useState } from "react";
-import { Close } from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 import { useNavigate } from "react-router";
 import { ROUTES } from "@/constants/router";
 
@@ -52,7 +52,7 @@ const RegisterPage: React.FC = () => {
             color="inherit"
             onClick={() => setSnackbar(false)}
           >
-            <Close fontSize="small"/>
+            <CloseIcon fontSize="small"/>
           </IconButton>
         }
       />

@@ -19,13 +19,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onError, onSuccess }) => {
           fullWidth
           {...register('email', { required: 'Email wajib diisi' })}
           helperText={errors.email?.message}
-          slotProps={{
-            formHelperText: {
-              sx: {
-                marginLeft: 0,
-              }
-            }
-          }}
         />
 
         <TextField
@@ -35,13 +28,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ onError, onSuccess }) => {
           fullWidth
           {...register('password', { required: 'Password wajib diisi' })}
           helperText={errors.password?.message}
-          slotProps={{
-            formHelperText: {
-              sx: {
-                marginLeft: 0,
-              }
-            }
-          }}
         />
         <Button type="submit" variant="contained" disabled={isLoading}>Login</Button>
       </Stack>
