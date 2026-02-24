@@ -1,23 +1,20 @@
-import { useDeleteMasterJob, useGetMasterJobs } from "@/app/api/master_job/useMasterJobApi";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
+import type { Job } from "@/app/api/master_job/type";
 
-interface JobForm {
-  id: string;
+export interface JobForm {
   name: string;
   location: string;
+  platform: string;
 }
 
-export const useMasterJobForm = () => {
+export const useMasterJobForm = (job?: Job) => {
   const form = useForm<JobForm>({
     defaultValues: {
-      id: '',
-      name: '',
-      location: '',
+      name: job?.name || '',
+      location: job?.location || '',
+      platform: job?.platform || '',
     },
   });
 
-	return {
-    form,
-  };
+  return { form };
 };

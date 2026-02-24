@@ -1,49 +1,55 @@
-import { useDeleteMasterJob, useGetMasterJobs } from "@/app/api/master_job/useMasterJobApi";
+import { useDeleteMasterJob, useGetMasterJobs, usePostMasterJob, usePutMasterJob } from "@/app/api/master_job/useMasterJobApi";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-
-interface JobForm {
-  id: string;
-  name: string;
-  location: string;
-}
+import type { JobForm } from "./useMasterJobForm";
 
 export const useMasterJob = () => {
-	const [search, setSearch] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
   const [page, _setPage] = useState<number>(0);
   const [limit, _setLimit] = useState<number>(100);
 
-	const { data, isLoading, isPending, refetch } = useGetMasterJobs({
+  const { data, isLoading, isFetching, refetch } = useGetMasterJobs({
     page,
     limit,
-		search: search,
-	});
+    search,
+  });
 
-  const { mutateAsync: deleteJob } = useDeleteMasterJob({
+  const { mutateAsync: createJob, isPending: isCreating } = usePostMasterJob({
     onSuccess: () => refetch(),
   });
-	const onDelete = async (id: string) => {
-		await deleteJob(id)
-	}
 
-  const form = useForm<JobForm>({
-    defaultValues: {
-      id: '',
-      name: '',
-      location: '',
-    },
+  const { mutateAsync: updateJob, isPending: isUpdating } = usePutMasterJob({
+    onSuccess: () => refetch(),
   });
 
-	const jobsData = data?.data.data?.jobs || [];
+  const { mutateAsync: deleteJob, isPending: isDeleting } = useDeleteMasterJob({
+    onSuccess: () => refetch(),
+  });
 
-	return {
-		jobsData,
-		isLoading,
-		isPending,
-    form,
+  const onDelete = async (id: string) => {
+    await deleteJob(id);
+  };
 
-		setSearch,
-		refetch,
+  const onSubmit = async (id: string | null, data: JobForm) => {
+    if (id) {
+      await updateJob({ id, data });
+    } else {
+      await createJob(data);
+    }
+  };
+
+  const jobsData = data?.data.data?.jobs || [];
+
+  return {
+    jobsData,
+    // isLoading is true only on first load; isFetching covers refetch/page changes too
+    isLoading: isLoading || isFetching,
+    isCreating,
+    isUpdating,
+    isDeleting,
+
+    setSearch,
+    refetch,
     onDelete,
-	};
+    onSubmit,
+  };
 };

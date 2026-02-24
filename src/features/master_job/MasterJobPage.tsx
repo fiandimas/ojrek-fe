@@ -1,25 +1,83 @@
 import type React from "react";
-import { Box, Button, Container, TextField, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Stack } from "@mui/material";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
 import { useMasterJob } from "./hooks/useMasterJob";
 import { useCallback, useState } from "react";
 import MasterJobTable from "./components/MasterJobTable";
-import { Form } from "react-hook-form";
+import MasterJobForm from "./components/MasterJobForm";
 import type { Job } from "@/app/api/master_job/type";
 
+type FormDialogState = {
+  open: boolean;
+  mode: "create" | "edit";
+  job?: Job;
+};
+
+type DeleteDialogState = {
+  open: boolean;
+  jobId: string | null;
+};
+
 const MasterJobPage: React.FC = () => {
-  const [inputSearch, setInputSearch] = useState('');
-  const [dialogStage, setDialogState] = useState<{ mode: 'create' | 'edit', job: Job | undefined;}>({ mode: 'create', job: undefined });
+  const [inputSearch, setInputSearch] = useState("");
 
+  const [formDialog, setFormDialog] = useState<FormDialogState>({
+    open: false,
+    mode: "create",
+    job: undefined,
+  });
 
-  const [dialog, setDialog] = useState(false);
-  const { form, jobsData, isLoading, refetch, setSearch, onDelete } = useMasterJob();
+  const [deleteDialog, setDeleteDialog] = useState<DeleteDialogState>({
+    open: false,
+    jobId: null,
+  });
 
+  const { jobsData, isLoading, setSearch, onDelete, onSubmit, isCreating, isUpdating, isDeleting } =
+    useMasterJob();
 
-  const openDialog = useCallback((mode: 'create' | 'edit', jobId: string | null) => {
-    setDialogState({ mode, job: jobsData.find((e) => e.id === jobId)})
+  // ── Form dialog handlers ─────────────────────────────────────────────────
+  const openCreateDialog = useCallback(() => {
+    setFormDialog({ open: true, mode: "create", job: undefined });
   }, []);
 
+  const openEditDialog = useCallback(
+    (id: string) => {
+      const job = jobsData.find((e) => e.id === id);
+      setFormDialog({ open: true, mode: "edit", job });
+    },
+    [jobsData]
+  );
 
+  const closeFormDialog = useCallback(() => {
+    setFormDialog((prev) => ({ ...prev, open: false }));
+  }, []);
+
+  // ── Delete dialog handlers ───────────────────────────────────────────────
+  const openDeleteDialog = useCallback((id: string) => {
+    setDeleteDialog({ open: true, jobId: id });
+  }, []);
+
+  const closeDeleteDialog = useCallback(() => {
+    setDeleteDialog({ open: false, jobId: null });
+  }, []);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!deleteDialog.jobId) return;
+    await onDelete(deleteDialog.jobId);
+    closeDeleteDialog();
+  }, [deleteDialog.jobId, onDelete, closeDeleteDialog]);
+
+  // ── Search ───────────────────────────────────────────────────────────────
   const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     setInputSearch(e.target.value);
   }, []);
@@ -32,7 +90,7 @@ const MasterJobPage: React.FC = () => {
     <>
       <Box sx={{ marginTop: 2 }}>
         <Container>
-          <Box sx={{ display: 'flex', justifyContent: 'space-between', gap: 2, marginTop: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", gap: 2, marginTop: 2 }}>
             <TextField
               placeholder="Search by title..."
               size="small"
@@ -47,32 +105,49 @@ const MasterJobPage: React.FC = () => {
           <MasterJobTable
             isLoading={isLoading}
             jobs={jobsData}
-            onAdd={() => openDialog('create', null)}
-            onEdit={(id) => openDialog('edit', id)}
-            onDelete={() => openDialog('create', null)}
+            onAdd={openCreateDialog}
+            onEdit={openEditDialog}
+            onDelete={openDeleteDialog}
           />
         </Container>
       </Box>
 
-      {/* <Dialog open={open}>
-        <DialogTitle>Hapus Data?</DialogTitle>
+      {/* Create / Edit Dialog */}
+      <MasterJobForm
+        open={formDialog.open}
+        mode={formDialog.mode}
+        job={formDialog.job}
+        isSubmitting={isCreating || isUpdating}
+        onSubmit={onSubmit}
+        onClose={closeFormDialog}
+      />
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialog.open} onClose={closeDeleteDialog}>
+        <DialogTitle>Delete Job?</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Data ini akan dihapus secara permanen dan tidak bisa dikembalikan.
-            Yakin ingin melanjutkan?
+            This data will be permanently deleted and cannot be recovered. Are you sure you want to
+            continue?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeDialog}>Batal</Button>
-          <Button color="error" variant="contained" onClick={handleDelete}>
-            Hapus
+          <Button onClick={closeDeleteDialog} disabled={isDeleting}>
+            Cancel
+          </Button>
+          <Button
+            color="error"
+            variant="contained"
+            onClick={handleConfirmDelete}
+            disabled={isDeleting}
+            startIcon={isDeleting ? <CircularProgress size={16} /> : undefined}
+          >
+            Delete
           </Button>
         </DialogActions>
-      </Dialog> */}
-
-      
+      </Dialog>
     </>
   );
-}
+};
 
 export default MasterJobPage;

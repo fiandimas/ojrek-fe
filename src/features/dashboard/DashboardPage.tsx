@@ -14,7 +14,6 @@ const DashboardPage: React.FC = () => {
   return (
     <Box sx={{ marginTop: 2 }}>
       <Container>
-        <p>sadsadsa</p>
         <Grid container spacing={2}>
           <Grid size={6}>
             <Card>
@@ -27,19 +26,6 @@ const DashboardPage: React.FC = () => {
           </Grid>
 
           <Grid size={6}>
-            <Card>
-              <CardContent>
-                <BarChart
-                  xAxis={[{ scaleType: "band", data: days }]}
-                  series={[{ data: values }]}
-                  width={500}
-                  height={300}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-
-          <Grid size={12}>
             <Card>
               <CardContent>
                 <BarChart

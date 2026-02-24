@@ -31,11 +31,11 @@ export const usePostMasterJob = (
 };
 
 export const usePutMasterJob = (
-  options?: UseMutationOptions<AxiosResponse<ResponseApi>, AxiosError<ResponseApi>, { id: string; data: JobData}>
+  options?: UseMutationOptions<AxiosResponse<ResponseApi>, AxiosError<ResponseApi>, { id: string; data: JobData }>
 ) => {
   return useMutation({
     ...options,
-    mutationFn: ({ id, data }) => jobApi.post(data),
+    mutationFn: ({ id, data }) => jobApi.put(id, data),
   });
 };
 
