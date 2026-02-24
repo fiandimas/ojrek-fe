@@ -10,6 +10,7 @@ export interface Job {
   name: string;
   platform: string;
   detail_url: string;
+  created_at: string;
   updated_at: string;
 }
 

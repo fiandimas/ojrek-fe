@@ -5,6 +5,7 @@ interface User {
   name: string;
   email: string;
   profession: string;
+  type: string;
 }
 
 type AuthContextType = {
@@ -25,8 +26,8 @@ export const AuthProvider = ({ children}: { children: React.ReactNode } ) => {
 
   useEffect(() => {
     if (isSuccess) {
-      const { name, email, profession } = data.data.data!;
-      _setUser({ email, name, profession });
+      const { name, email, profession, type } = data.data.data!;
+      _setUser({ email, name, profession, type });
       setLoading(false);
     }
 

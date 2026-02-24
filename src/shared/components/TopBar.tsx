@@ -35,13 +35,20 @@ const TopBar: React.FC = () => {
         <Toolbar disableGutters>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: 'w-full', minWidth: '100%' }}>
             <Box>
-              {/* <Button onClick={() => navigate(ROUTES.JOBS)} color="inherit">Jobs</Button>
-              {isAuthenticated && (
+              {user == null || user.type === 'external' && (
+                <Button onClick={() => navigate(ROUTES.JOBS)} color="inherit">Jobs</Button>
+              )}
+
+              {(isAuthenticated && user?.type === 'external') && (
                 <Button onClick={() => navigate(ROUTES.RECOMMENDED)} color="inherit">Recommended Jobs</Button>
-              )} */}
-              <Button onClick={() => navigate(ROUTES.INTERNAL.DASHBOARD)} color="inherit">Dashboard</Button>
-              <Button onClick={() => navigate(ROUTES.INTERNAL.JOB)} color="inherit">Master Job</Button>
-              <Button onClick={() => navigate(ROUTES.INTERNAL.SYNC)} color="inherit">Sync Job</Button>
+              )}
+              {user?.type === 'internal' && (
+                <>
+                    <Button onClick={() => navigate(ROUTES.INTERNAL.DASHBOARD)} color="inherit">Dashboard</Button>
+                    <Button onClick={() => navigate(ROUTES.INTERNAL.JOB)} color="inherit">Master Job</Button>
+                    <Button onClick={() => navigate(ROUTES.INTERNAL.SYNC)} color="inherit">Sync Job</Button>
+                </>
+              )}
             </Box>
             <Box>
               {isAuthenticated ?

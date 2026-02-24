@@ -16,6 +16,7 @@ import { useCallback, useState } from "react";
 import MasterJobTable from "./components/MasterJobTable";
 import MasterJobForm from "./components/MasterJobForm";
 import type { Job } from "@/app/api/master_job/type";
+import MasterJobTablePagination from "./components/MasterJobTablePagination";
 
 type FormDialogState = {
   open: boolean;
@@ -42,7 +43,7 @@ const MasterJobPage: React.FC = () => {
     jobId: null,
   });
 
-  const { jobsData, isLoading, setSearch, onDelete, onSubmit, isCreating, isUpdating, isDeleting } =
+  const { jobsData, isLoading, setSearch, onDelete, onSubmit, setSort, isCreating, isUpdating, isDeleting, page, setPage, jobCount, limit } =
     useMasterJob();
 
   // ── Form dialog handlers ─────────────────────────────────────────────────
@@ -86,6 +87,10 @@ const MasterJobPage: React.FC = () => {
     setSearch(inputSearch);
   }, [inputSearch, setSearch]);
 
+  const onSort = (col: string, sort: 'asc' | 'desc') => {
+    setSort({ col, sort })
+  }
+
   return (
     <>
       <Box sx={{ marginTop: 2 }}>
@@ -108,6 +113,10 @@ const MasterJobPage: React.FC = () => {
             onAdd={openCreateDialog}
             onEdit={openEditDialog}
             onDelete={openDeleteDialog}
+            onSort={onSort}
+          />
+
+          <MasterJobTablePagination page={page} limit={limit} count={jobCount} onPageChange={setPage}
           />
         </Container>
       </Box>

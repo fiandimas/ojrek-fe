@@ -4,13 +4,16 @@ import type { JobForm } from "./useMasterJobForm";
 
 export const useMasterJob = () => {
   const [search, setSearch] = useState<string>('');
-  const [page, _setPage] = useState<number>(0);
-  const [limit, _setLimit] = useState<number>(100);
+  const [page, setPage] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(50);
+  const [sort, setSort] = useState<{ col: string, sort: 'asc' | 'desc'}>();
 
   const { data, isLoading, isFetching, refetch } = useGetMasterJobs({
     page,
     limit,
     search,
+    col: sort?.col,
+    sort: sort?.sort,
   });
 
   const { mutateAsync: createJob, isPending: isCreating } = usePostMasterJob({
@@ -38,6 +41,7 @@ export const useMasterJob = () => {
   };
 
   const jobsData = data?.data.data?.jobs || [];
+  const jobCount = data?.data.data?.count || 0;
 
   return {
     jobsData,
@@ -46,8 +50,14 @@ export const useMasterJob = () => {
     isCreating,
     isUpdating,
     isDeleting,
+    page,
+    setPage,
+    limit,
+    setLimit,
+    jobCount,
 
     setSearch,
+    setSort,
     refetch,
     onDelete,
     onSubmit,

@@ -3,6 +3,7 @@ export interface MeResponse {
   name: string;
   email: string;
   profession: string;
+  type: string;
 }
 
 export interface MyJobsResponse {
