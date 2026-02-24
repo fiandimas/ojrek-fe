@@ -5,6 +5,9 @@ import JobPage from '@/features/job/JobPage';
 import RegisterPage from '@/features/auth/register/RegisterPage';
 import LoginPage from '@/features/auth/login/LoginPage';
 import RecommendedPage from '@/features/recommended/RecommendedPage';
+import SyncPage from '@/features/sync/SyncPage';
+import DashboardPage from '@/features/dashboard/DashboardPage';
+import MasterJobPage from '@/features/master_job/MasterJobPage';
 import AppLayout from "@/shared/layouts/AppLayout";
 import { ROUTES } from "@/constants/router";
 import GuestLayout from "@/shared/layouts/GuestLayout";
@@ -46,6 +49,20 @@ const Router = [
           },
         ],
       },
+
+      // PROTECTED INTERNAL ROUTE
+      {
+        path: ROUTES.INTERNAL.SYNC,
+        element: <SyncPage />
+      },
+      {
+        path: ROUTES.INTERNAL.DASHBOARD,
+        element: <DashboardPage />
+      },
+      {
+        path: ROUTES.INTERNAL.JOB,
+        element: <MasterJobPage />
+      }
     ],
   },
 ];

@@ -45,7 +45,7 @@ const JobGrid: React.FC<JobGridProps> = ({ jobs, isLoading, onClickCard }) => {
 		<Grid container spacing={2} sx={{ marginTop: 2 }}>
       {jobs.map((job) => (
         <Grid size={4} key={job.id}>
-          <Card sx={{ height: 160 }} key={job.id}>
+          <Card sx={{ height: 160, p: 1, borderRadius: 2, boxShadow: 3 }} key={job.id} >
             <CardActionArea onClick={() => onClickCard(job.detail_url)}>
               <CardContent>
                 <Typography gutterBottom variant="h6" noWrap>{job.name}</Typography>

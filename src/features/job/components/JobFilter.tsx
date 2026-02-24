@@ -29,6 +29,10 @@ const JobFilter: React.FC<JobFilterProps> = ({ onSearch }) => {
           <ToggleButton value="date">
             Date
           </ToggleButton>
+
+          <ToggleButton value="date">
+            A-Z
+          </ToggleButton>
         </ToggleButtonGroup>
         </Box>
     </Box>

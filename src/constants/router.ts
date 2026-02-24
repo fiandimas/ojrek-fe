@@ -5,5 +5,10 @@ export const ROUTES = {
   AUTH: {
     LOGIN: '/auth/login',
     REGISTER: '/auth/register'
+  },
+  INTERNAL: {
+    SYNC: '/internal/sync',
+    DASHBOARD: '/internal/dashboard',
+    JOB: '/internal/jobs'
   }
 }
