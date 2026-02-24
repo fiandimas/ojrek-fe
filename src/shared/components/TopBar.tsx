@@ -35,9 +35,7 @@ const TopBar: React.FC = () => {
         <Toolbar disableGutters>
           <Box sx={{ display: 'flex', justifyContent: 'space-between', width: 'w-full', minWidth: '100%' }}>
             <Box>
-              {user == null || user.type === 'external' && (
-                <Button onClick={() => navigate(ROUTES.JOBS)} color="inherit">Jobs</Button>
-              )}
+              <Button onClick={() => navigate(ROUTES.JOBS)} color="inherit">Jobs</Button>
 
               {(isAuthenticated && user?.type === 'external') && (
                 <Button onClick={() => navigate(ROUTES.RECOMMENDED)} color="inherit">Recommended Jobs</Button>
